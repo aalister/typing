@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="Practice typing and check your typing speed and accuracy. Simple and minimalist design with a dark and light theme.">
+
+    <title>Typing Practice</title>
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter&display=swap">
+    <link rel="stylesheet" href="/styles.css">
+
+    <!-- Set theme before content loads to prevent flash -->
+    <script>(()=>{const q=matchMedia("(prefers-color-scheme:dark)");(q.onchange=e=>{const t=localStorage.getItem("theme");document.documentElement.classList.toggle("dark",t?t==="dark":e.matches)})(q)})()</script>
+    <script src="/scripts.js" defer></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="dropdown">
+            <button type="button" class="text-button" aria-label="Theme">
+                <div class="theme-icon"></div>
+            </button>
+            <div class="dropdown-menu theme-menu">
+                <button type="button" class="text-button dropdown-close theme-button">System</button>
+                <button type="button" class="text-button dropdown-close theme-button" data-theme="light">Light</button>
+                <button type="button" class="text-button dropdown-close theme-button" data-theme="dark">Dark</button>
+            </div>
+        </div>
+    </nav>
+    <div class="content">
+        <div class="test-container">
+            <div class="test-bar">
+                <div class="test-results">
+                    <div class="test-result test-wpm" id="test-wpm">0.0</div>
+                    <div class="test-result test-accuracy" id="test-accuracy">0.0</div>
+                </div>
+                <div class="test-length">
+                    <div class="test-length-highlight" id="test-length-highlight"></div>
+                    <button type="button" class="text-button test-length-button" data-test-length="10"><span>10</span></button>
+                    <button type="button" class="text-button test-length-button active" data-test-length="25"><span>25</span></button>
+                    <button type="button" class="text-button test-length-button" data-test-length="50"><span>50</span></button>
+                    <button type="button" class="text-button test-length-button" data-test-length="100"><span>100</span></button>
+                    <button type="button" class="text-button test-length-button" data-test-length="250"><span>250</span></button>
+                </div>
+            </div>
+            <div class="test-progress">
+                <div class="test-progress-bar" id="test-progress-bar"></div>
+            </div>
+            <div class="test">
+                <div class="test-cursor" id="test-cursor"></div>
+                <div class="test-text" id="test-text"></div>
+            </div>
+        </div>
+        <div class="keyboard" id="keyboard">
+            <div class="keyboard-row">
+                <div class="keyboard-key keyboard-key-4-wide" data-key="Backquote"></div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="Digit1"></div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="Digit2"></div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="Digit3"></div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="Digit4"></div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="Digit5"></div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="Digit6"></div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="Digit7"></div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="Digit8"></div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="Digit9"></div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="Digit0"></div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="Minus"></div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="Equal"></div>
+                <div class="keyboard-key keyboard-key-8-wide" data-key="Backspace"></div>
+            </div>
+            <div class="keyboard-row">
+                <div class="keyboard-key keyboard-key-6-wide" data-key="Tab"></div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyQ">Q</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyW">W</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyE">E</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyR">R</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyT">T</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyY">Y</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyU">U</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyI">I</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyO">O</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyP">P</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="BracketLeft"></div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="BracketRight"></div>
+                <div class="keyboard-key keyboard-key-6-wide keyboard-key-enter" data-key="Enter"></div>
+            </div>
+            <div class="keyboard-row">
+                <div class="keyboard-key keyboard-key-7-wide" data-key="CapsLock"></div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyA">A</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyS">S</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyD">D</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyF">F</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyG">G</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyH">H</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyJ">J</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyK">K</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyL">L</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="Semicolon"></div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="Quote"></div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="Backslash"></div>
+            </div>
+            <div class="keyboard-row">
+                <div class="keyboard-key keyboard-key-5-wide" data-key="ShiftLeft"></div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="IntlBackslash"></div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyZ">Z</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyX">X</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyC">C</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyV">V</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyB">B</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyN">N</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="KeyM">M</div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="Comma"></div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="Period"></div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="Slash"></div>
+                <div class="keyboard-key keyboard-key-11-wide" data-key="ShiftRight"></div>
+            </div>
+            <div class="keyboard-row">
+                <div class="keyboard-key keyboard-key-6-wide" data-key="ControlLeft"></div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="MetaLeft"></div>
+                <div class="keyboard-key keyboard-key-6-wide" data-key="AltLeft"></div>
+                <div class="keyboard-key keyboard-key-24-wide" data-key="Space"></div>
+                <div class="keyboard-key keyboard-key-6-wide" data-key="AltRight"></div>
+                <div class="keyboard-key keyboard-key-4-wide"></div>
+                <div class="keyboard-key keyboard-key-4-wide" data-key="ContextMenu"></div>
+                <div class="keyboard-key keyboard-key-6-wide" data-key="ControlRight"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
