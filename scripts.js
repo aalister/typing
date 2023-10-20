@@ -114,7 +114,7 @@ function animationEnd(element) {
 }
 
 (async function() {
-    const response = await fetch("/words.txt");
+    const response = await fetch("/typing/words.txt");
     const contents = await response.text();
     const words = contents.trim().split("\n");
     const distribution = zipf(words.length);
