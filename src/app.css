@@ -1,0 +1,43 @@
+*,
+::before,
+::after {
+    box-sizing: inherit;
+}
+
+html {
+    --background1: hsl(0, 0%, 99%);
+    --background2: hsl(0, 0%, 91%);
+    --primary1: hsl(214, 70%, 50%);
+    --error1: hsl(7, 70%, 50%);
+    --text1: hsl(0, 0%, 10%);
+    --text2: hsl(0, 0%, 60%);
+    color-scheme: light;
+}
+
+html.dark {
+    --background1: hsl(0, 0%, 15%);
+    --background2: hsl(0, 0%, 20%);
+    --primary1: hsl(214, 100%, 70%);
+    --error1: hsl(7, 100%, 70%);
+    --text1: hsl(0, 0%, 95%);
+    --text2: hsl(0, 0%, 60%);
+    color-scheme: dark;
+}
+
+html {
+    --standard: cubic-bezier(0.2, 0, 0, 1);
+    --emphasised-accelerate: cubic-bezier(0.3, 0, 0.8, 0.15);
+    --emphasised-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+}
+
+html {
+    background: var(--background1);
+    box-sizing: border-box;
+    font-size: 62.5%;
+}
+
+body {
+    color: var(--text1);
+    font: 1.6rem / 1.5 "Inter", sans-serif;
+    margin: 0;
+}
