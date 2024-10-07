@@ -160,21 +160,17 @@
     };
 </script>
 
-<svelte:window {onkeypress} {onkeydown}/>
+<svelte:window {onkeypress} {onkeydown} />
 
 <div class="container">
     <div class="toolbar">
         <div class="results">
             {#key [wpm, acc]}
-                <div class="result">
-                    <span class="wpm" in:fly={resultInTransition} out:fly={resultOutTransition}>
-                        {wpm.toFixed(1)}
-                    </span>
+                <div class="result" in:fly={resultInTransition} out:fly={resultOutTransition}>
+                    {wpm.toFixed(1)}<span class="unit">&nbsp;WPM</span>
                 </div>
-                <div class="result">
-                    <span class="accuracy" in:fly={resultInTransition} out:fly={resultOutTransition}>
-                        {acc.toFixed(1)}
-                    </span>
+                <div class="result" in:fly={resultInTransition} out:fly={resultOutTransition}>
+                    {acc.toFixed(1)}<span class="unit">%</span>
                 </div>
             {/key}
         </div>
@@ -187,7 +183,7 @@
             {/each}
         </div>
     </div>
-    <ProgressBar fraction={progress}/>
+    <ProgressBar fraction={progress} />
     <div class="test">
         <div class="cursor" style:transform="translateX({cursor}px)"></div>
         {#key testID}
@@ -220,37 +216,25 @@
     }
 
     .results {
-        display: flex;
+        height: 1em;
         overflow: hidden;
         position: relative;
+        width: 16rem;
     }
 
     .result {
-        height: 1em;
         line-height: 1em;
-        position: relative;
+        position: absolute;
+        text-align: center;
         width: 8rem;
     }
 
-    .wpm,
-    .accuracy {
-        left: 50%;
-        position: absolute;
-        transform: translateX(-50%);
+    .result:nth-child(2) {
+        left: 8rem;
     }
 
-    .wpm::after,
-    .accuracy::after {
+    .unit {
         font-size: 1.3rem;
-        white-space: nowrap;
-    }
-
-    .wpm::after {
-        content: " WPM";
-    }
-
-    .accuracy::after {
-        content: "%";
     }
 
     .length {
