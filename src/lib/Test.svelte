@@ -71,6 +71,13 @@
             return;
         }
 
+        // Defocus active element to avoid unintentionally pressing buttons
+        if (event.key.match(/[a-z]/)) {
+            if (document.activeElement instanceof HTMLElement) {
+                document.activeElement.blur();
+            }
+        }
+
         if (index == 0) {
             startTime = Date.now();
 
