@@ -1,7 +1,8 @@
 <script lang="ts">
     import ProgressBar from "./ProgressBar.svelte";
+    import Result from "./Result.svelte";
     import { fly } from "svelte/transition";
-    import { cubicIn, cubicOut, expoOut } from "svelte/easing";
+    import { expoOut } from "svelte/easing";
     import { getText } from "./words";
     import Button from "./Button.svelte";
 
@@ -30,7 +31,7 @@
     let cursor = $state(0);
     let row = $state(0);
     let wpm = $state(0);
-    let acc = $state(0);
+    let accuracy = $state(0);
     let progress = $state(0);
     let resetDuration = $state(100);
     let testID = $state(0);
@@ -58,7 +59,7 @@
     */
     function finishTest() {
         wpm = 12000 * index / (Date.now() - startTime);
-        acc = 100 * (index - incorrect) / index;
+        accuracy = 100 * (index - incorrect) / index;
         row++;
         setTimeout(resetTest, 100);
     }
@@ -150,21 +151,6 @@
             resetTest(false);
         }
     }
-
-    const resultInTransition = {
-        duration: 100,
-        delay: 100,
-        y: 17,
-        opacity: 1,
-        easing: cubicOut,
-    };
-
-    const resultOutTransition = {
-        duration: 100,
-        y: -17,
-        opacity: 1,
-        easing: cubicIn,
-    };
 </script>
 
 <svelte:window {onkeypress} {onkeydown} />
@@ -172,14 +158,8 @@
 <div class="container">
     <div class="toolbar">
         <div class="results">
-            {#key [wpm, acc]}
-                <div class="result" in:fly={resultInTransition} out:fly={resultOutTransition}>
-                    {wpm.toFixed(1)}<span class="unit">&nbsp;WPM</span>
-                </div>
-                <div class="result" in:fly={resultInTransition} out:fly={resultOutTransition}>
-                    {acc.toFixed(1)}<span class="unit">%</span>
-                </div>
-            {/key}
+            <Result key={[wpm, accuracy]} value={wpm} unit=" WPM" />
+            <Result key={[wpm, accuracy]} value={accuracy} unit="%" />
         </div>
         <div class="length">
             <div class="length-highlight" style:transform="translateX({highlight}rem)"></div>
@@ -223,25 +203,7 @@
     }
 
     .results {
-        height: 1em;
-        overflow: hidden;
-        position: relative;
-        width: 16rem;
-    }
-
-    .result {
-        line-height: 1em;
-        position: absolute;
-        text-align: center;
-        width: 8rem;
-    }
-
-    .result:nth-child(2) {
-        left: 8rem;
-    }
-
-    .unit {
-        font-size: 1.3rem;
+        display: flex;
     }
 
     .length {
