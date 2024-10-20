@@ -1,4 +1,5 @@
 <script lang="ts">
+    import ContentSwitcher from "./ContentSwitcher.svelte";
     import ProgressBar from "./ProgressBar.svelte";
     import Result from "./Result.svelte";
     import { fly } from "svelte/transition";
@@ -133,23 +134,12 @@
         }
     }
 
-    let highlight = $state(6.3);
-
     /**
-    Resets the test with n words.
+    Sets the length of the test to n words.
     */
     function setTestLength(n: number) {
-        if (length !== n) {
-            length = n;
-            highlight = {
-                10: 0,
-                25: 6.3,
-                50: 12.6,
-                100: 18.9,
-                250: 25.2,
-            }[length]!
-            resetTest(false);
-        }
+        length = n;
+        resetTest(false);
     }
 </script>
 
@@ -161,14 +151,17 @@
             <Result key={[wpm, accuracy]} value={wpm} unit=" WPM" />
             <Result key={[wpm, accuracy]} value={accuracy} unit="%" />
         </div>
-        <div class="length">
-            <div class="length-highlight" style:transform="translateX({highlight}rem)"></div>
-            {#each [10, 25, 50, 100, 250] as n (n)}
-                {@const active = length === n}
-                {@const style = `height: 3.6rem; width: 5.8rem; ${active ? "color: var(--background1)" : ""}`}
-                <Button {style} onclick={() => {setTestLength(n)}}>{n}</Button>
-            {/each}
-        </div>
+        <ContentSwitcher
+            items={[
+                { id: 10, label: "10" },
+                { id: 25, label: "25" },
+                { id: 50, label: "50" },
+                { id: 100, label: "100" },
+                { id: 250, label: "250" },
+            ]}
+            onchange={setTestLength}
+            selectedId={25}
+        />
     </div>
     <ProgressBar fraction={progress} />
     <div class="test">
@@ -204,21 +197,6 @@
 
     .results {
         display: flex;
-    }
-
-    .length {
-        display: flex;
-        gap: 0.5rem;
-        position: relative;
-    }
-
-    .length-highlight {
-        background: var(--text1);
-        border-radius: 0.3rem;
-        height: 100%;
-        position: absolute;
-        transition: transform 200ms var(--standard);
-        width: 5.8rem;
     }
 
     .test {
