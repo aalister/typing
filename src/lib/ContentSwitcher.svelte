@@ -37,7 +37,7 @@
 <div class="items">
     {#each items as { id, label }}
         <div class="item">
-            <Button onclick={() => {select(id)}} aria-selected={id === selectedId}>
+            <Button onclick={() => {select(id)}}>
                 {label}
             </Button>
         </div>

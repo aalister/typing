@@ -1,11 +1,10 @@
 <script lang="ts">
+    import { expoOut } from "svelte/easing";
+    import { fly } from "svelte/transition";
     import ContentSwitcher from "./ContentSwitcher.svelte";
     import ProgressBar from "./ProgressBar.svelte";
     import Result from "./Result.svelte";
-    import { fly } from "svelte/transition";
-    import { expoOut } from "svelte/easing";
     import { getText } from "./words";
-    import Button from "./Button.svelte";
 
     let length = $state(25);
     let letters: {
@@ -29,15 +28,13 @@
 
     initLetters();
 
-    let cursor = $state(0);
+    let index = $state(0);
     let row = $state(0);
     let wpm = $state(0);
     let accuracy = $state(0);
-    let progress = $state(0);
-    let resetDuration = $state(100);
+    let resetDuration = $state(0);
     let testID = $state(0);
 
-    let index = 0;
     let startTime = 0;
     let incorrect = 0;
 
@@ -45,13 +42,11 @@
     Resets the typing test.
     */
     function resetTest(animate = true) {
-        resetDuration = animate ? 100 : 0;
         index = 0;
-        cursor = 0;
         row = 0;
-        progress = 0;
-        incorrect = 0;
+        resetDuration = animate ? 100 : 0;
         testID++;
+        incorrect = 0;
         initLetters();
     }
 
@@ -110,7 +105,6 @@
         }
 
         letters[index++].complete = true;
-        progress = index / letters.length;
 
         // Check if the test is finished
         if (index == letters.length) {
@@ -121,8 +115,6 @@
         if (isNewline) {
             row++;
         }
-
-        cursor = letters[index].element!.offsetLeft;
     }
 
     /**
@@ -141,6 +133,10 @@
         length = n;
         resetTest(false);
     }
+
+    const cursorPosition = $derived(letters[index]?.element?.offsetLeft ?? 0);
+    const progress = $derived(index / letters.length);
+    const transtiion = $derived({ duration: resetDuration, y: 60, opacity: 1, easing: expoOut });
 </script>
 
 <svelte:window {onkeypress} {onkeydown} />
@@ -165,9 +161,9 @@
     </div>
     <ProgressBar fraction={progress} />
     <div class="test">
-        <div class="cursor" style:transform="translateX({cursor}px)"></div>
+        <div class="cursor" style:transform="translateX({cursorPosition}px)"></div>
         {#key testID}
-            <div class="text" style:transform="translateY({-1.5 * row}em)" in:fly={{ duration: resetDuration, y: 60, opacity: 1, easing: expoOut }}>
+            <div class="text" style:transform="translateY({-1.5 * row}em)" in:fly={transtiion}>
                 {#each letters as info, i (i)}
                     <span bind:this={info.element} class:complete={info.complete} class:incorrect={!info.correct}>
                         {info.letter}
@@ -220,6 +216,8 @@
 
     .text {
         transition: transform 100ms ease-in-out;
+        -webkit-user-select: none;
+        user-select: none;
     }
 
     .complete {

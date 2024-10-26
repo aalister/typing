@@ -2,12 +2,33 @@
     import Button from "./Button.svelte";
 
     const query = matchMedia("(prefers-color-scheme:dark)");
-    const themes = { "System": null, "Light": "light", "Dark": "dark" };
+    const themes = [
+        {
+            label: "System",
+            value: null,
+        },
+        {
+            label: "Light",
+            value: "light",
+        },
+        {
+            label: "Dark",
+            value: "dark",
+        },
+    ];
 
-    let active = $state(false);
     let theme = $state(localStorage.getItem("typing-theme"));
 
-    $effect(() => {
+    /**
+    Sets the theme when the user presses a button.
+    */
+    function setTheme(value: string | null) {
+        theme = value;
+
+        if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur();
+        }
+
         if (!theme) {
             document.documentElement.classList.toggle("dark", query.matches);
             localStorage.removeItem("typing-theme");
@@ -17,27 +38,29 @@
 
         document.documentElement.classList.toggle("dark", theme === "dark");
         localStorage.setItem("typing-theme", theme);
-    });
+    }
 </script>
 
-<svelte:window onclick={() => {active = false}}/>
-
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<!-- svelte-ignore a11y_no_static_element_interactions -->
-<div class="dropdown" class:active onclick={(e) => e.stopPropagation()}>
-    <Button onclick={() => {active = !active}}>
+<div class="container">
+    <Button aria-label="Theme">
         <div class="icon"></div>
     </Button>
-    <div class="menu">
-        {#each Object.entries(themes) as [label, value]}
-            <Button onclick={() => {active = false; theme = value}} style={theme === value ? "background: var(--text1); color: var(--background1)" : ""}>
-                {label}
+    <div class="menu" tabindex="-1">
+        {#each themes as { label, value }}
+            <Button onclick={() => {setTheme(value)}}>
+                <div class="label" class:active={theme === value}>
+                    {label}
+                </div>
             </Button>
         {/each}
     </div>
 </div>
 
 <style>
+    .container {
+        position: relative;
+    }
+
     .icon {
         border-radius: 50%;
         box-shadow: inset 0 0 0 0.2rem var(--text1);
@@ -63,32 +86,43 @@
         inset: 0 -100% 0 150%;
     }
 
-    .dropdown {
-        position: relative;
+    .container:focus-within .icon::before,
+    .container:focus-within .icon::after {
+        transform: translateX(-200%);
     }
 
     .menu {
         background: var(--background2);
         border-radius: 0.5rem;
+        display: none;
+        flex-direction: column;
+        gap: 0.4rem;
         margin-top: 0.8rem;
+        padding: 0.8rem;
         position: absolute;
+        right: 0;
+        width: 15rem;
         z-index: 1;
     }
 
-    .dropdown:not(.active) .menu {
-        display: none;
-    }
-
-    .dropdown.active .icon::before,
-    .dropdown.active .icon::after {
-        transform: translateX(-200%);
-    }
-
-    .menu {
+    .container:focus-within .menu {
         display: flex;
-        flex-direction: column;
-        padding: 0.8rem;
-        right: 0;
-        width: 15rem;
+    }
+
+    .label.active {
+        color: var(--background1);
+    }
+
+    .label::before {
+        background: var(--text1);
+        content: "";
+        display: none;
+        inset: 0;
+        position: absolute;
+        z-index: -1;
+    }
+
+    .label.active::before {
+        display: block;
     }
 </style>
