@@ -34,6 +34,7 @@
     let accuracy = $state(0);
     let resetDuration = $state(0);
     let testID = $state(0);
+    let animate = $state(false);
 
     let startTime = 0;
     let incorrect = 0;
@@ -57,6 +58,7 @@
         wpm = 12000 * index / (Date.now() - startTime);
         accuracy = 100 * (index - incorrect) / index;
         row++;
+        animate = true;
         setTimeout(resetTest, 100);
     }
 
@@ -141,7 +143,7 @@
 
 <svelte:window {onkeypress} {onkeydown} />
 
-<div class="container">
+<div class="container" class:animate onanimationend={() => {animate = false}}>
     <div class="toolbar">
         <div class="results">
             <Result key={[wpm, accuracy]} value={wpm} unit=" WPM" />
@@ -180,7 +182,41 @@
         border-radius: 0.5rem;
         display: flex;
         flex-direction: column;
+        position: relative;
         width: 70rem;
+    }
+
+    .container::before,
+    .container::after {
+        border-radius: 0.5rem;
+        content: "";
+        inset: 0;
+        opacity: 0;
+        pointer-events: none;
+        position: absolute;
+    }
+
+    .container::before {
+        background: linear-gradient(var(--background2) 50%, var(--primary2) 100%);
+    }
+
+    .container::after {
+        outline: 0.2rem solid var(--primary1);
+    }
+
+    .container.animate::before,
+    .container.animate::after {
+        animation: glow 1000ms ease-in both;
+    }
+
+    @keyframes glow {
+        0%, 100% {
+            opacity: 0;
+        }
+
+        50%, 75% {
+            opacity: 1;
+        }
     }
 
     .toolbar {

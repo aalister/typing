@@ -8,6 +8,7 @@ html {
     --background1: hsl(0, 0%, 99%);
     --background2: hsl(0, 0%, 91%);
     --primary1: hsl(214, 70%, 50%);
+    --primary2: hsl(214, 60%, 90%);
     --error1: hsl(7, 70%, 50%);
     --text1: hsl(0, 0%, 10%);
     --text2: hsl(0, 0%, 60%);
@@ -18,6 +19,7 @@ html.dark {
     --background1: hsl(0, 0%, 15%);
     --background2: hsl(0, 0%, 20%);
     --primary1: hsl(214, 100%, 70%);
+    --primary2: hsl(214, 30%, 25%);
     --error1: hsl(7, 100%, 70%);
     --text1: hsl(0, 0%, 95%);
     --text2: hsl(0, 0%, 60%);
