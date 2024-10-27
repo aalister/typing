@@ -40,6 +40,15 @@ html {
 
 body {
     color: var(--text1);
-    font: 1.6rem / 1.5 "Inter", sans-serif;
+    font: 1.6rem / 1.5 Inter, Inter-fallback, sans-serif;
     margin: 0;
+}
+
+@font-face {
+    ascent-override: 90.4869%;
+    descent-override: 22.5554%;
+    font-family: Inter-fallback;
+    line-gap-override: 0%;
+    size-adjust: 107.0596%;
+    src: local("Arial");
 }
