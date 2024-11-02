@@ -5,6 +5,7 @@
     import ProgressBar from "./ProgressBar.svelte";
     import Result from "./Result.svelte";
     import { getText } from "./words";
+    import { addScore } from "./scores.svelte";
 
     let length = $state(25);
     let letters: {
@@ -59,6 +60,7 @@
         accuracy = 100 * (index - incorrect) / index;
         row++;
         animate = true;
+        addScore(wpm, accuracy);
         setTimeout(resetTest, 100);
     }
 
