@@ -71,6 +71,7 @@
         flex-direction: column;
         grid-row-start: 1;
         height: 3.6rem;
+        width: calc-size(auto, round(up, size, 1px));
     }
 
     .overlay {
@@ -106,5 +107,6 @@
         display: flex;
         justify-content: center;
         padding: 0 1.4rem;
+        width: calc-size(auto, round(up, size, 1px));
     }
 </style>
