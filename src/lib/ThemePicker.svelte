@@ -18,16 +18,14 @@
     ];
 
     let theme = $state(localStorage.getItem("typing-theme"));
+    let active = $state(false);
 
     /**
     Sets the theme when the user presses a button.
     */
     function setTheme(value: string | null) {
         theme = value;
-
-        if (document.activeElement instanceof HTMLElement) {
-            document.activeElement.blur();
-        }
+        active = false;
 
         if (!theme) {
             document.documentElement.classList.toggle("dark", query.matches);
@@ -41,11 +39,15 @@
     }
 </script>
 
-<div class="container">
-    <Button aria-label="Theme">
+<svelte:window onclick={() => {active = false}} />
+
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<div class="dropdown" class:active onclick={(e) => {e.stopPropagation()}}>
+    <Button aria-label="Theme" onclick={() => {active = !active}}>
         <div class="icon"></div>
     </Button>
-    <div class="menu" tabindex="-1">
+    <div class="menu">
         {#each themes as { label, value }}
             <Button onclick={() => {setTheme(value)}}>
                 <div class="label" class:active={theme === value}>
@@ -57,7 +59,7 @@
 </div>
 
 <style>
-    .container {
+    .dropdown {
         position: relative;
     }
 
@@ -86,8 +88,8 @@
         inset: 0 -100% 0 150%;
     }
 
-    .container:focus-within .icon::before,
-    .container:focus-within .icon::after {
+    .dropdown.active .icon::before,
+    .dropdown.active .icon::after {
         transform: translateX(-200%);
     }
 
@@ -105,7 +107,7 @@
         z-index: 1;
     }
 
-    .container:focus-within .menu {
+    .dropdown.active .menu {
         display: flex;
     }
 
