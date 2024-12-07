@@ -5,18 +5,37 @@
 </script>
 
 <div class="navbar">
-    <ThemePicker/>
+    <ThemePicker />
+    <a class="avatar" href="https://github.com/aalister" target="_blank">
+        <img src="https://avatars.githubusercontent.com/u/80782387" alt="GitHub">
+    </a>
 </div>
 <div class="content">
-    <Test/>
-    <Keyboard/>
+    <Test />
+    <Keyboard />
 </div>
 
 <style>
     .navbar {
-        padding: 2rem;
+        align-items: center;
         display: flex;
+        gap: 1.6rem;
         justify-content: end;
+        padding: 2rem;
+        width: 100%;
+    }
+
+    .avatar {
+        border-radius: 50%;
+        display: flex;
+        height: 4rem;
+        overflow: hidden;
+        width: 4rem;
+    }
+
+    .avatar:focus-visible {
+        outline-offset: 0.3rem;
+        outline: 0.2rem solid var(--primary1);
     }
 
     .content {
