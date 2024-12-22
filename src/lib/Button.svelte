@@ -1,16 +1,18 @@
 <script lang="ts">
-    import type { Snippet } from "svelte";
     import type { HTMLButtonAttributes } from "svelte/elements";
 
     interface Props extends HTMLButtonAttributes {
-        children: Snippet;
-    };
+        /**
+        The kind of button.
+        */
+        kind?: "primary" | "text";
+    }
 
-    let { children, ...rest }: Props = $props();
+    const { children, kind = "text", ...rest }: Props = $props();
 </script>
 
-<button type="button" {...rest}>
-    {@render children()}
+<button type="button" class={kind} {...rest}>
+    {@render children?.()}
 </button>
 
 <style>
@@ -19,7 +21,8 @@
         background: none;
         border-radius: 0.3rem;
         border: none;
-        display: flex;
+        color: var(--text1);
+        display: inline-flex;
         font: inherit;
         gap: 1.6rem;
         height: 4.8rem;
@@ -27,7 +30,13 @@
         overflow: hidden;
         padding: 0 1.4rem;
         position: relative;
+        white-space: nowrap;
+        vertical-align: top;
         z-index: 0;
+    }
+
+    button.primary {
+        background: var(--background2);
     }
 
     button::before {
