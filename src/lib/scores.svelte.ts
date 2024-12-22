@@ -17,6 +17,11 @@ export interface Score {
 };
 
 /**
+Stores a cache of recently updated scores.
+*/
+export const cache: { scores: Score[] } = $state({ scores: [] });
+
+/**
 Opens the database containing the scores.
 */
 function openDB() {
@@ -40,6 +45,56 @@ function openDB() {
 
         request.onsuccess = function() {
             resolve(this.result);
+        };
+    });
+}
+
+/**
+Gets the score in the database for a day.
+*/
+export async function getScore(date: Date) {
+    const request = (await db)
+        .transaction("scores")
+        .objectStore("scores")
+        .get(date);
+
+    return new Promise<Score>((resolve, reject) => {
+        request.onerror = function() {
+            reject(`Failed to get score: ${this.error?.message}`);
+        };
+
+        request.onsuccess = function() {
+            resolve(this.result);
+        };
+    });
+}
+
+/**
+Gets all scores in the database for days between two dates inclusive.
+*/
+export async function getScores(from: Date, to: Date) {
+    const scores: Score[] = [];
+    const request = (await db)
+        .transaction("scores")
+        .objectStore("scores")
+        .index("date")
+        .openCursor(IDBKeyRange.bound(from, to));
+
+    return new Promise<Score[]>((resolve, reject) => {
+        request.onerror = function() {
+            reject(`Failed to get scores: ${this.error?.message}`);
+        };
+
+        request.onsuccess = function() {
+            const cursor = this.result;
+
+            if (cursor) {
+                scores.push(cursor.value);
+                cursor.continue();
+                return;
+            }
+
+            resolve(scores);
         };
     });
 }
@@ -83,6 +138,18 @@ export async function addScore(wpm: number, accuracy: number) {
 
             request.onsuccess = function() {
                 resolve(score);
+
+                // Update cache
+                const index = cache.scores.findIndex((score) => {
+                    return score.date.getTime() === date.getTime();
+                });
+
+                if (index < 0) {
+                    cache.scores.push(score);
+                    return;
+                }
+
+                cache.scores[index] = score;
             };
         };
     });

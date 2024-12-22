@@ -32,6 +32,13 @@ export function getDay(date: Date) {
 }
 
 /**
+Returns the most recent Monday from the date.
+*/
+export function weekStart(date: Date) {
+    return shiftDate(date, -getDay(date));
+}
+
+/**
 Returns the number of days between the start and end dates.
 */
 export function daysBetween(startDate: Date, endDate: Date) {
