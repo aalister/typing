@@ -42,8 +42,12 @@
     Calculates the opacity for a value in the heatmap.
     */
     function opacity(value: number) {
-        if (value === 0 || min - max === 0) {
+        if (value === 0) {
             return 0;
+        }
+
+        if (min === max) {
+            return 1;
         }
 
         return 0.3 + (0.7 * (value - min)) / (max - min);
