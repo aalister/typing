@@ -83,7 +83,7 @@
             <div class="statistic">
                 <div class="label">Average:</div>
                 <Result
-                    key={[timeRange, average.toFixed(1)]}
+                    key={timeRange + average.toFixed(1)}
                     value={isNaN(average) ? 0 : average}
                     unit=" WPM"
                     style="text-align:left"
@@ -92,7 +92,7 @@
             <div class="statistic">
                 <div class="label">Fastest:</div>
                 <Result
-                    key={[timeRange, fastest.toFixed(1)]}
+                    key={timeRange + fastest.toFixed(1)}
                     value={fastest}
                     unit=" WPM"
                     style="text-align:left"
@@ -101,7 +101,7 @@
             <div class="statistic">
                 <div class="label">Accuracy:</div>
                 <Result
-                    key={[timeRange, accuracy.toFixed(1)]}
+                    key={timeRange + accuracy.toFixed(1)}
                     value={isNaN(accuracy) ? 0 : accuracy}
                     unit="%"
                     style="text-align:left"
