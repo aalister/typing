@@ -16,7 +16,7 @@
 
 <div class="navbar">
     <ThemePicker />
-    <a class="avatar" href="https://github.com/aalister" target="_blank">
+    <a class="avatar" href="https://github.com/aalister" target="_blank" rel="noreferrer">
         <img src="https://avatars.githubusercontent.com/u/80782387" alt="GitHub">
     </a>
 </div>
@@ -96,6 +96,7 @@
         justify-content: center;
         padding: 0.8rem;
         position: absolute;
+        z-index: 1;
     }
 
     .label {
