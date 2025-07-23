@@ -38,7 +38,9 @@
     </Button>
 </div>
 <div class="statistics" class:open>
-    <Statistics />
+    <div class="inner">
+        <Statistics />
+    </div>
 </div>
 
 <style>
@@ -73,8 +75,15 @@
     }
 
     .statistics {
+        display: flex;
+        flex-direction: column;
+        height: calc(100% - 9.6rem);
+        justify-content: end;
         left: 50%;
+        max-height: 73.2rem;
+        pointer-events: none;
         position: absolute;
+        top: 0;
         transform: translate(-50%, calc(100vh - 57.4rem));
         transition: transform 200ms var(--emphasised-accelerate), visibility 200ms; /* Exit transition */
         visibility: hidden;
@@ -84,6 +93,19 @@
         transform: translateX(-50%);
         transition: transform 300ms var(--emphasised-decelerate); /* Enter transition */
         visibility: visible;
+    }
+
+    .statistics .inner {
+        pointer-events: all;
+        position: relative;
+    }
+
+    .statistics .inner::before {
+        content: "";
+        position: absolute;
+        inset: -2rem 0 0 0;
+        background: linear-gradient(to top, var(--background1) 15rem, transparent);
+        z-index: -1;
     }
 
     .actions {
